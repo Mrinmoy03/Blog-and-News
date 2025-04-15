@@ -40,7 +40,6 @@ const News = () => {
         if (searchQuery) {
           url = `https://gnews.io/api/v4/search?q=${searchQuery}&lang=en&apikey=f7c51571c76dd0c1362c1c536bbe40c8`;
         } else if (selectedCategory === "general") {
-          // Indian News for General Category
           url = `https://gnews.io/api/v4/top-headlines?country=in&lang=en&apikey=f7c51571c76dd0c1362c1c536bbe40c8`;
         } else {
           url = `https://gnews.io/api/v4/top-headlines?category=${selectedCategory}&lang=en&apikey=f7c51571c76dd0c1362c1c536bbe40c8`;
@@ -78,14 +77,15 @@ const News = () => {
     setSelectedArticle(article);
     setShowModal(true);
   };
+
   const handleBookmarkClick = (article) => {
     setBookmarks((prevBookmarks) => {
-      const updatedBookmarks = prevBookmarks.find(
+      const isBookmarked = prevBookmarks.some(
         (bookmark) => bookmark.title === article.title
-      )
+      );
+      return isBookmarked
         ? prevBookmarks.filter((bookmark) => bookmark.title !== article.title)
         : [...prevBookmarks, article];
-      return updatedBookmarks;
     });
   };
 
@@ -129,8 +129,12 @@ const News = () => {
                   {category}
                 </a>
               ))}
-              <a href="#" className="nav-link">
-                Bookmarks <i className="fa-regular fa-bookmark"></i>
+              <a
+                href="#"
+                className="nav-link"
+                onClick={() => setShowBookmarksModal(true)}
+              >
+                Bookmarks <i className="fa-solid fa-bookmark"></i>
               </a>
             </div>
           </nav>
@@ -147,15 +151,16 @@ const News = () => {
                 <h2 className="headline-title">
                   {headline.title}
                   <i
-                    className={`${
+                    className={`fa-bookmark bookmark ${
                       bookmarks.some(
-                        (bookmark) => bookmark.title === artitle.title
+                        (bookmark) => bookmark.title === headline.title
                       )
                         ? "fa-solid"
                         : "fa-regular"
-                    }fa-bookmark bookmark`} 
-                    onClick={(e)=>{e.stopPropagation()
-                      handleBookmarkClick(headline)
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBookmarkClick(headline);
                     }}
                   ></i>
                 </h2>
@@ -176,15 +181,16 @@ const News = () => {
                 <h3>
                   {article.title}
                   <i
-                    className={`${
+                    className={`fa-bookmark bookmark ${
                       bookmarks.some(
-                        (bookmark) => bookmark.title === artitle.title
+                        (bookmark) => bookmark.title === article.title
                       )
                         ? "fa-solid"
                         : "fa-regular"
-                    }fa-bookmark bookmark`} 
-                    onClick={(e)=>{e.stopPropagation()
-                      handleBookmarkClick(article)
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleBookmarkClick(article);
                     }}
                   ></i>
                 </h3>
@@ -198,9 +204,13 @@ const News = () => {
           article={selectedArticle}
           onClose={() => setShowModal(false)}
         />
-        <Bookmarks show= {showBookmarksModal} bookmarks ={bookmarks} onClose ={()=> setShowBookmarksModal(false)} onSelectArticle = {handleArticleClick}  onDeleteBookmark = {handleBookmarkClick} 
-          
-          />
+        <Bookmarks
+          show={showBookmarksModal}
+          bookmarks={bookmarks}
+          onClose={() => setShowBookmarksModal(false)}
+          onSelectArticle={handleArticleClick}
+          onDeleteBookmark={handleBookmarkClick}
+        />
 
         <div className="my-blogs">My Blogs</div>
 
@@ -216,5 +226,3 @@ const News = () => {
 };
 
 export default News;
-
-// 3:24:52
