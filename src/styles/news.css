@@ -52,6 +52,7 @@
     transform: translateY(-50%);
     color: #bbb;
     font-size: 2rem;
+    cursor: pointer;
 }
 .news-content{
     display: flex;
@@ -127,6 +128,18 @@
     margin-left: 1rem;
 
 }
+/* Hover effect for all category links */
+.nav-link:hover {
+    color: rgb(140, 10, 20);
+    transition: color 0.3s ease;
+  }
+  
+  /* Active (selected) category */
+  .active-category {
+    color: rgb(10, 122, 10);
+    font-weight: bold;
+  }
+  
 .news-section{
   width: clamp(30rem, 43cqi, 40%);
   height: 100%;

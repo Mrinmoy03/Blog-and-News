@@ -11,5 +11,5 @@ const App = () => {
     </div>
   )
 }
-// 1:10:06
+
 export default App
