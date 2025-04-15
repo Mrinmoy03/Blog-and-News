@@ -53,6 +53,9 @@ const News = () => {
 
         setHeadline(fetchedNews[0]);
         setNews(fetchedNews.slice(1, 7));
+
+        const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+        setBookmarks(savedBookmarks);
       } catch (error) {
         console.error("Error fetching news:", error.message);
       }
@@ -80,13 +83,21 @@ const News = () => {
 
   const handleBookmarkClick = (article) => {
     setBookmarks((prevBookmarks) => {
-      const isBookmarked = prevBookmarks.some(
+      const updatedBookmarks = prevBookmarks.some(
         (bookmark) => bookmark.title === article.title
-      );
-      return isBookmarked
+      )
         ? prevBookmarks.filter((bookmark) => bookmark.title !== article.title)
         : [...prevBookmarks, article];
+
+      localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+      return updatedBookmarks;
     });
+  };
+
+  const handleBookmarkArticleClick = (article) => {
+    setSelectedArticle(article);
+    setShowModal(true);
+    setShowBookmarksModal(false);
   };
 
   return (
@@ -141,10 +152,7 @@ const News = () => {
         </div>
 
         <div className="news-section">
-          <div
-            className="headline"
-            onClick={() => handleArticleClick(headline)}
-          >
+          <div className="headline" onClick={() => handleArticleClick(headline)}>
             {headline ? (
               <>
                 <img src={headline.image} alt="Headline" />
@@ -152,9 +160,7 @@ const News = () => {
                   {headline.title}
                   <i
                     className={`fa-bookmark bookmark ${
-                      bookmarks.some(
-                        (bookmark) => bookmark.title === headline.title
-                      )
+                      bookmarks.some((bookmark) => bookmark.title === headline.title)
                         ? "fa-solid"
                         : "fa-regular"
                     }`}
@@ -182,9 +188,7 @@ const News = () => {
                   {article.title}
                   <i
                     className={`fa-bookmark bookmark ${
-                      bookmarks.some(
-                        (bookmark) => bookmark.title === article.title
-                      )
+                      bookmarks.some((bookmark) => bookmark.title === article.title)
                         ? "fa-solid"
                         : "fa-regular"
                     }`}
@@ -208,7 +212,7 @@ const News = () => {
           show={showBookmarksModal}
           bookmarks={bookmarks}
           onClose={() => setShowBookmarksModal(false)}
-          onSelectArticle={handleArticleClick}
+          onSelectArticle={handleBookmarkArticleClick}
           onDeleteBookmark={handleBookmarkClick}
         />
 
