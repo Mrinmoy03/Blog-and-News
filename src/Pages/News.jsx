@@ -23,7 +23,7 @@ const categories = [
   "nation",
 ];
 
-const News = () => {
+const News = ({onShowBlogs}) => {
   const [headline, setHeadline] = useState(null);
   const [news, setNews] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("general");
@@ -108,6 +108,7 @@ const News = () => {
         searchInput={searchInput}
         setSearchInput={setSearchInput}
         handleSearch={handleSearch}
+        
       />
 
       <div className="news-content">
@@ -117,6 +118,7 @@ const News = () => {
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
           setShowBookmarksModal={setShowBookmarksModal}
+          onShowBlogs={onShowBlogs}
         />
 
         <NewsSection
