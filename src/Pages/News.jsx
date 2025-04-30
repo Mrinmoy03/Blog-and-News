@@ -3,10 +3,7 @@ import Weather from "../components/Weather";
 import Calender from "../components/Calender";
 import "../styles/news.css";
 import userImg from "../assets/images/user.jpg";
-import blogImg1 from '../assets/images/blog1.jpg'
-import blogImg2 from '../assets/images/blog2.jpg'
-import blogImg3 from '../assets/images/blog3.jpg'
-import blogImg4 from '../assets/images/blog4.jpg'
+
 import noImg from "../assets/images/no-img.png";
 import axios from "axios";
 import NewsModal from "../components/NewsModal";
@@ -14,6 +11,8 @@ import Bookmarks from "../components/Bookmarks";
 import NewsHeader from "../components/NewsHeader";
 import NewsSidebar from "../components/NewsSidebar";
 import NewsSection from "../components/NewsSection";
+import BlogsModal from "../components/BlogsModal";
+
 
 const categories = [
   "general",
@@ -27,7 +26,7 @@ const categories = [
   "nation",
 ];
 
-const News = ({onShowBlogs}) => {
+const News = ({onShowBlogs, blogs, onEditBlog}) => {
   const [headline, setHeadline] = useState(null);
   const [news, setNews] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("general");
@@ -37,6 +36,8 @@ const News = ({onShowBlogs}) => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [showBookmarksModal, setShowBookmarksModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null)
+  const [showBlogModal, setShowBlogModal]  = useState (false)
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -106,6 +107,16 @@ const News = ({onShowBlogs}) => {
     setShowBookmarksModal(false);
   };
 
+  const handleBlogClick = (blog) =>{
+    setSelectedPost(blog)
+    setShowBlogModal(true)
+  }
+
+  const closeBlogModal = () =>{
+    setShowBlogModal(false)
+    setSelectedPost(null)
+  }
+
   return (
     <div className="news">
       <NewsHeader
@@ -150,45 +161,30 @@ const News = ({onShowBlogs}) => {
         <div className="my-blogs">
           <h1 className="my-blogs-heading">My Blogs</h1>
           <div className="blog-posts">
-            <div className="blog-post">
-              <img src={blogImg1} alt="Post Image" />
-              <h3>Lorem ipsum dolor sit amet.</h3>
-              <div className="post-buttons">
-                <button className="editpost">
+            {blogs.map((blog, index)=>(
+              <div key={index}
+              className="blog-post" onClick={()=> handleBlogClick(blog)}>
+                <img src={blog.image || noImg} alt={blog.title} />
+                <h3>{blog.title}</h3>
+               
+                <div className="post-buttons">
+                <button className="editpost" onClick={()=> onEditBlog(blog)}>
                   <i className="bx bxs-edit"></i>
                 </button>
                 <button className="delete-post">
                 <i className="bx bxs-x-circle"></i>
                 </button>
               </div>
-            </div>
-            <div className="blog-post">
-              <img src={blogImg2} alt="Post Image" />
-              <h3>Lorem ipsum dolor sit amet.</h3>
-              <div className="post-buttons">
-                <button className="editpost">
-                  <i className="bx bxs-edit"></i>
-                </button>
-                <button className="delete-post">
-                <i className="bx bxs-x-circle"></i>
-                </button>
               </div>
-            </div>
-            <div className="blog-post">
-              <img src={blogImg3} alt="Post Image" />
-              <h3>Lorem ipsum dolor sit amet.</h3>
-              <div className="post-buttons">
-                <button className="editpost">
-                  <i className="bx bxs-edit"></i>
-                </button>
-                <button className="delete-post">
-                <i className="bx bxs-x-circle"></i>
-                </button>
-              </div>
-            </div>
+            ))}
+          
            
           </div>
-
+          {selectedPost && showBlogModal && (
+                  <BlogsModal show = {showBlogModal}  blog={selectedPost}
+                  onClose={closeBlogModal}/>
+          )}
+           
         </div>
 
         <div className="weather-calender">
@@ -208,3 +204,5 @@ const News = ({onShowBlogs}) => {
 };
 
 export default News;
+
+
