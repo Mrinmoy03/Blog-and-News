@@ -54,7 +54,7 @@ const App = () => {
     setSelectedPost(null);
   };
   return (
-    // <div className='container'>
+    <div className='container'>
     <div className="news-blog-app">
       {showNews && (
         <News
@@ -74,7 +74,7 @@ const App = () => {
       )}
     </div>
 
-    //  </div>
+   </div>
   );
 };
 

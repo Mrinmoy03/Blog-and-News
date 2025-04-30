@@ -3,16 +3,15 @@ import Weather from "../components/Weather";
 import Calender from "../components/Calender";
 import "../styles/news.css";
 import userImg from "../assets/images/user.jpg";
-
 import noImg from "../assets/images/no-img.png";
 import axios from "axios";
+
 import NewsModal from "../components/NewsModal";
 import Bookmarks from "../components/Bookmarks";
 import NewsHeader from "../components/NewsHeader";
 import NewsSidebar from "../components/NewsSidebar";
 import NewsSection from "../components/NewsSection";
-import BlogsModal from "../components/BlogsModal";
-
+import MyBlogs from "../components/MyBlogs";
 
 const categories = [
   "general",
@@ -26,7 +25,7 @@ const categories = [
   "nation",
 ];
 
-const News = ({onShowBlogs, blogs, onEditBlog}) => {
+const News = ({ onShowBlogs, blogs, onEditBlog, onDeleteBlog }) => {
   const [headline, setHeadline] = useState(null);
   const [news, setNews] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("general");
@@ -36,8 +35,8 @@ const News = ({onShowBlogs, blogs, onEditBlog}) => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [showBookmarksModal, setShowBookmarksModal] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null)
-  const [showBlogModal, setShowBlogModal]  = useState (false)
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [showBlogModal, setShowBlogModal] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -107,23 +106,12 @@ const News = ({onShowBlogs, blogs, onEditBlog}) => {
     setShowBookmarksModal(false);
   };
 
-  const handleBlogClick = (blog) =>{
-    setSelectedPost(blog)
-    setShowBlogModal(true)
-  }
-
-  const closeBlogModal = () =>{
-    setShowBlogModal(false)
-    setSelectedPost(null)
-  }
-
   return (
     <div className="news">
       <NewsHeader
         searchInput={searchInput}
         setSearchInput={setSearchInput}
         handleSearch={handleSearch}
-        
       />
 
       <div className="news-content">
@@ -158,34 +146,15 @@ const News = ({onShowBlogs, blogs, onEditBlog}) => {
           onDeleteBookmark={handleBookmarkClick}
         />
 
-        <div className="my-blogs">
-          <h1 className="my-blogs-heading">My Blogs</h1>
-          <div className="blog-posts">
-            {blogs.map((blog, index)=>(
-              <div key={index}
-              className="blog-post" onClick={()=> handleBlogClick(blog)}>
-                <img src={blog.image || noImg} alt={blog.title} />
-                <h3>{blog.title}</h3>
-               
-                <div className="post-buttons">
-                <button className="editpost" onClick={()=> onEditBlog(blog)}>
-                  <i className="bx bxs-edit"></i>
-                </button>
-                <button className="delete-post">
-                <i className="bx bxs-x-circle"></i>
-                </button>
-              </div>
-              </div>
-            ))}
-          
-           
-          </div>
-          {selectedPost && showBlogModal && (
-                  <BlogsModal show = {showBlogModal}  blog={selectedPost}
-                  onClose={closeBlogModal}/>
-          )}
-           
-        </div>
+        <MyBlogs
+          blogs={blogs}
+          onEditBlog={onEditBlog}
+          onDeleteBlog={onDeleteBlog}
+          selectedPost={selectedPost}
+          setSelectedPost={setSelectedPost}
+          showBlogModal={showBlogModal}
+          setShowBlogModal={setShowBlogModal}
+        />
 
         <div className="weather-calender">
           <Weather />
@@ -204,5 +173,3 @@ const News = ({onShowBlogs, blogs, onEditBlog}) => {
 };
 
 export default News;
-
-

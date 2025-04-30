@@ -93,7 +93,7 @@
  
   .days .today {
    
-    border-radius: 50%;
+    /* border-radius: 50%; */
     color: white;
     font-weight: bold;
     font-size: 1.7rem;
@@ -109,5 +109,14 @@
 
   .days .empty {
     background: transparent;
+  }
+
+
+  @media(max-width : 900px){
+    .calendar{
+      height: 100%;
+  
+    }
+    
   }
   

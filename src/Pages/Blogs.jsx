@@ -95,7 +95,7 @@ const Blogs = ({ onBack, onCreateBlog, editPost, isEditing }) => {
         {submitted && <p className="submission-message">Post Submitted!</p>}
 
         <div className={`blogs-right-form ${showForm ? "visible" : "hidden"}`}>
-          <h1>New Post</h1>
+          <h1>{isEditing ? 'Edit Post' : 'New Post'}</h1>
           <form onSubmit={handleSubmit}>
             <div className="img-upload">
               <label htmlFor="file-upload" className="file-upload">
@@ -131,7 +131,7 @@ const Blogs = ({ onBack, onCreateBlog, editPost, isEditing }) => {
               onChange={handleContentChange}
             ></textarea>
             <button type="submit" className="submit-btn">
-              Submit
+              {isEditing ? 'Update Post' : 'Submit Post'}
             </button>
           </form>
         </div>
