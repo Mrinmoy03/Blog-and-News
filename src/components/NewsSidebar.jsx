@@ -1,9 +1,11 @@
 import React from "react";
 import userImg from "../assets/images/user.jpg";
 
-const NewsSidebar = ({ categories, selectedCategory, handleCategoryClick, setShowBookmarksModal }) => (
+const NewsSidebar = ({ categories, selectedCategory, handleCategoryClick, setShowBookmarksModal,
+  onShowBlogs  
+ }) => (
   <div className="navbar">
-    <div className="user">
+    <div className="user" onClick={onShowBlogs}>
       <img src={userImg} alt="user" />
       <p>Mary's Blog</p>
     </div>
