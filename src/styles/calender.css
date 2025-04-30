@@ -97,12 +97,12 @@
     color: white;
     font-weight: bold;
     font-size: 1.7rem;
-    background: linear-gradient(to right, rgb(130, 1, 1) , rgb(50, 1, 1))
+    background: linear-gradient(to right, #b88efc, #6877f4);
   }
   
 
   .days .holiday {
-    color: #34c759;
+    color: #087623;
     font-weight: bold;
   }
   
